@@ -1,7 +1,7 @@
 import BaseResponse from "./BaseResponse";
 import NewsItem from "./newsItem";
 import SourceItem from "./sourceItem";
-import type { articleType, newsResponseType } from "./types";
+import type { newsResponseType } from "./types";
 
 class NewsResponseDto extends BaseResponse {
   

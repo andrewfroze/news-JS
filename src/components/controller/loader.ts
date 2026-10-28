@@ -1,5 +1,4 @@
 import Request from "./request";
-import { NewsResponseDto } from "../model";
 import type Endpoint from "../../constants/endpoints";
 
 class Loader {
