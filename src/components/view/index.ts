@@ -1,3 +1,3 @@
-import AppView from "./appView";
+import AppView from './appView';
 
-export { AppView as default }
+export { AppView as default };

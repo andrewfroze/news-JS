@@ -1,3 +1,3 @@
-import Sources from "./sources"
+import Sources from './sources';
 
-export { Sources as default }
+export { Sources as default };
