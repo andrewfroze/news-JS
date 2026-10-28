@@ -1,5 +1,6 @@
 import Request from "./request";
-import NewsResponse from "../model";
+import { NewsResponseDto } from "../model";
+import type Endpoint from "../../constants/endpoints";
 
 class Loader {
 
@@ -11,13 +12,14 @@ class Loader {
         this.options = options;
     }
 
-    getResp(
+    getResp<T, R = T>(
         request: Request,
-        callback: (data: NewsResponse) => void = () => {
+        callback: (data: R) => void = () => {
             console.error('No callback for GET response');
-        }
+        },
+        mapFn?: (data: T) => R,
     ) {
-        this.load('GET', request.getEndpoint(), callback, request.getOptions());
+        this.load('GET', request.getEndpoint(), callback, request.getOptions(), mapFn);
     }
 
     errorHandler(res: Response): Response {
@@ -30,7 +32,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options: object, endpoint: string): string {
+    makeUrl(options: object, endpoint: Endpoint): string {
         const urlOptions: object = { ...this.options, ...options };
         let url: string = `${this.baseLink}${endpoint}?`;
 
@@ -41,11 +43,20 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method: string, endpoint: string, callback: (data: NewsResponse) => void, options: object = {}): void {
+    load<T, R = T>(
+        method: string,
+        endpoint: Endpoint,
+        callback: (data: R) => void,
+        options: object = {},
+        mapFn?: (data: T) => R,
+    ): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
-            .then((data) => callback(data))
+            .then((data: T) => {
+                const result = mapFn ? mapFn(data) : (data as unknown as R);
+                callback(result);
+            })
             .catch((err) => console.error(err));
     }
 }

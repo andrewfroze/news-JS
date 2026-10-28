@@ -9,7 +9,7 @@ class Request {
     this.options = options;
   }
 
-  getEndpoint(): string {
+  getEndpoint(): Endpoint {
     return this.endpoint;
   }
 

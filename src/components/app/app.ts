@@ -1,6 +1,6 @@
 import AppView from '../view';
 import AppController from '../controller';
-import NewsResponse from '../model';
+import { NewsResponseDto, SourcesResponseDto } from '../model';
 
 class App {
 
@@ -15,8 +15,8 @@ class App {
   start(): void {
     document
       .querySelector('.sources')
-      ?.addEventListener('click', (e) => this.controller.getNews(e, (data: NewsResponse) => this.view.drawNews(data)));
-    this.controller.getSources((data: NewsResponse) => this.view.drawSources(data));
+      ?.addEventListener('click', (e) => this.controller.getNews(e, (data: NewsResponseDto) => this.view.drawNews(data)));
+    this.controller.getSources((data: SourcesResponseDto) => this.view.drawSources(data));
   }
 }
 

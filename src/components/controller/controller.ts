@@ -1,17 +1,20 @@
 import Endpoint from '../../constants/endpoints';
-import NewsResponse from '../model';
+import { NewsResponseDto, SourcesResponseDto } from '../model';
+import type { newsResponseType, sourceResponseType } from '../model/types';
 import AppLoader from './appLoader';
 import Request from "./request";
 
 class AppController extends AppLoader {
-    getSources(callback: (data: NewsResponse) => void): void {
+
+    getSources(callback: (data: SourcesResponseDto ) => void): void {
         super.getResp(
             new Request(Endpoint.SOURCES),
-            callback
+            callback,
+            (response: sourceResponseType) => new SourcesResponseDto(response)
         );
     }
 
-    getNews(e: Event, callback: (data: NewsResponse) => void): void {
+    getNews(e: Event, callback: (data: NewsResponseDto) => void): void {
         let target = e.target as HTMLElement | null;
         const newsContainer = e.currentTarget as HTMLElement;
 
@@ -22,7 +25,8 @@ class AppController extends AppLoader {
                     newsContainer.setAttribute('data-source', sourceId);
                     super.getResp(
                         new Request (Endpoint.EVERYTHING, { sources: sourceId }),
-                        callback
+                        callback,
+                        (response: newsResponseType) => new NewsResponseDto(response)
                     );
                 }
                 return;

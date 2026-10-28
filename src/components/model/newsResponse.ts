@@ -1,23 +1,17 @@
+import BaseResponse from "./BaseResponse";
 import NewsItem from "./newsItem";
 import SourceItem from "./sourceItem";
+import type { articleType, newsResponseType } from "./types";
 
-class NewsResponse {
-  private status: string;
+class NewsResponseDto extends BaseResponse {
+  
   private totalResults: number;
   private articles: NewsItem[];
 
-  constructor(
-    status: string,
-    totalResults: number,
-    articles: NewsItem[]
-  ) {
-    this.status = status;
-    this.totalResults = totalResults;
-    this.articles = articles;
-  }
-
-  public getStatus(): string {
-    return this.status;
+  constructor(data: newsResponseType) {
+    super( data['status'])
+    this.totalResults = Number(data['totalResults']);
+    this.articles = data['articles'].map((article) => new NewsItem(article));
   }
 
   public getTotalResults() {
@@ -33,4 +27,4 @@ class NewsResponse {
   }
 }
 
-export default NewsResponse;
+export default NewsResponseDto;

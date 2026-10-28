@@ -1,4 +1,4 @@
-import NewsResponse from '../model';
+import { NewsResponseDto, SourcesResponseDto } from '../model';
 import News from './news';
 import Sources from './sources';
 import type IView from './view';
@@ -13,11 +13,11 @@ export class AppView {
     this.sources = new Sources();
   }
 
-  drawNews(data: NewsResponse) {
+  drawNews(data: NewsResponseDto): void {
     this.drawItems(data?.getArticles(), this.news);
   }
 
-  drawSources(data: NewsResponse) {
+  drawSources(data: SourcesResponseDto): void {
     this.drawItems(data?.getSources(), this.sources);
   }
 

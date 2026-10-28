@@ -1,6 +1,5 @@
 import SourceItem from "./sourceItem";
-
-type stringOrEmpty = string | null | undefined;
+import type { stringOrEmpty, articleType } from "./types";
 
 class NewsItem {
 
@@ -13,24 +12,16 @@ class NewsItem {
   private publishedAt: Date;
   private content: stringOrEmpty;
 
-  constructor(
-    source: SourceItem,
-    author: stringOrEmpty,
-    title: stringOrEmpty,
-    description: stringOrEmpty,
-    url: stringOrEmpty,
-    urlToImage: stringOrEmpty,
-    publishedAt: Date,
-    content: stringOrEmpty
-  ) {
-    this.source = source;
-    this.author = author;
-    this.title = title;
-    this.description = description;
-    this.url = url;
-    this.urlToImage = urlToImage;
-    this.publishedAt = publishedAt;
-    this.content = content;
+  constructor(articleData: articleType) {
+    const sourceData = articleData['source'];
+    this.source = new SourceItem(sourceData);
+    this.author = articleData['author'];
+    this.title = articleData['title'];
+    this.description = articleData['description'];
+    this.url = articleData['url'];
+    this.urlToImage = articleData['urlToImage'];
+    this.publishedAt = new Date(articleData['publishedAt']);
+    this.content = articleData['content'];
   }
 
   public getTitle(): string {
