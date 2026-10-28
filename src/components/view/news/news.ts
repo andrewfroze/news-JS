@@ -1,4 +1,4 @@
-import './news.module.css';
+import './news.css';
 import { NewsItem } from '../../model';
 import type IView from '../view';
 

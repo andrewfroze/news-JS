@@ -1,6 +1,6 @@
 import { SourceItem } from '../../model';
 import type IView from '../view';
-import './sources.module.css';
+import './sources.css';
 
 class Sources implements IView<SourceItem> {
 
