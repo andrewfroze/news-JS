@@ -1,14 +1,23 @@
+.news {
+    width: auto;
+    overflow-y: auto;
+    height: 100%;
+    padding-inline: 20px;
+}
+
 .news__item {
     display: flex;
     flex-direction: column;
-    margin: 1rem auto;
-    margin-bottom: 1.6%;
     background: #fff;
     color: #333;
     line-height: 1.4;
     font-family: Arial, sans-serif;
     border-radius: 5px;
     overflow: hidden;
+}
+
+.news__item + .news__item {
+    margin-top: 15px;
 }
 
 .news__item:hover .news__meta-photo {
