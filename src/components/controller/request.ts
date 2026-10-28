@@ -1,8 +1,10 @@
+import type Endpoint from "../../constants/endpoints";
+
 class Request {
-  private endpoint: string;
+  private endpoint: Endpoint;
   private options: object;
   
-  constructor (endpoint: string, options: object = {}) {
+  constructor (endpoint: Endpoint, options: object = {}) {
     this.endpoint = endpoint;
     this.options = options;
   }

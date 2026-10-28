@@ -1,3 +1,4 @@
+import Endpoint from '../../constants/endpoints';
 import NewsResponse from '../model';
 import AppLoader from './appLoader';
 import Request from "./request";
@@ -5,7 +6,7 @@ import Request from "./request";
 class AppController extends AppLoader {
     getSources(callback: (data: NewsResponse) => void): void {
         super.getResp(
-            new Request('sources'),
+            new Request(Endpoint.SOURCES),
             callback
         );
     }
@@ -20,7 +21,7 @@ class AppController extends AppLoader {
                 if (sourceId && newsContainer.getAttribute('data-source') !== sourceId) {
                     newsContainer.setAttribute('data-source', sourceId);
                     super.getResp(
-                        new Request ('everything', { sources: sourceId }),
+                        new Request (Endpoint.EVERYTHING, { sources: sourceId }),
                         callback
                     );
                 }
