@@ -1,28 +1,29 @@
 import NewsResponse from '../model';
 import News from './news';
 import Sources from './sources';
+import type IView from './view';
 
 export class AppView {
 
-    private news: News;
-    private sources: Sources;
+  private news: News;
+  private sources: Sources;
 
-    constructor() {
-        this.news = new News();
-        this.sources = new Sources();
-    }
+  constructor() {
+    this.news = new News();
+    this.sources = new Sources();
+  }
 
-    drawNews(data: NewsResponse) {
-        const articles = data?.getArticles();
-        const values = articles ? articles : [];
-        this.news.draw(values);
-    }
+  drawNews(data: NewsResponse) {
+    this.drawItems(data?.getArticles(), this.news);
+  }
 
-    drawSources(data: NewsResponse) {
-        const sources = data?.getSources();
-        const values = sources ? sources : [];
-        this.sources.draw(values);
-    }
+  drawSources(data: NewsResponse) {
+    this.drawItems(data?.getSources(), this.sources);
+  }
+
+  drawItems<T>(items: T[] | undefined | null, view: IView<T>): void {
+    view.draw(items ?? []);
+  }
 }
 
 export default AppView;
