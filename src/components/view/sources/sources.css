@@ -22,6 +22,14 @@
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
+
+    &.active {
+        background-color: rgb(121, 59, 59);
+        color: #410202;
+        border-color: rgb(89, 12, 12);
+        cursor: auto;
+        pointer-events: none;
+    }
 }
 
 .source__item:hover,

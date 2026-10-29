@@ -21,6 +21,7 @@ class AppController extends AppLoader {
         while (target && target !== newsContainer) {
             if (target.classList.contains('source__item')) {
                 const sourceId: stringOrEmpty = target.getAttribute('data-source-id');
+                this.markSourceAsActive(target);
                 if (sourceId && newsContainer.getAttribute('data-source') !== sourceId) {
                     newsContainer.setAttribute('data-source', sourceId);
                     super.getResp(
@@ -33,6 +34,12 @@ class AppController extends AppLoader {
             }
             target = target.parentNode as HTMLElement | null;
         }
+    }
+
+    private markSourceAsActive(sourceElement: HTMLElement): void {
+        const activeSources: NodeListOf<HTMLElement> = document.querySelectorAll('.source__item.active');
+        activeSources.forEach((source) => source.classList.remove('active'));
+        sourceElement.classList.add('active');
     }
 }
 
