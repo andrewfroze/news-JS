@@ -6,9 +6,55 @@ body {
 }
 
 header {
+    display: flex;
     padding: 10px 30px;
     height: 70px;
     box-sizing: border-box;
+    gap: 10px;
+}
+
+.burger-menu {
+    display: none;
+    background-color: transparent;
+    position: relative;
+    aspect-ratio: 1;
+    width: 50px;
+    cursor: pointer;
+    color: white;
+
+    &::before {
+        content: "";
+        border-bottom: 1px solid currentColor;
+        position: absolute;
+        display: block;
+        left: 10px;
+        top: 30px;
+        width: 30px;
+        transition: transform 0.3s ease, bottom 0.3s ease;
+    }
+
+    &::after {
+        content: "";
+        border-bottom: 1px solid currentColor;
+        position: absolute;
+        display: block;
+        left: 10px;
+        bottom: 30px;
+        width: 30px;
+        transition: transform 0.3s ease, bottom 0.3s ease;
+    }
+}
+
+body.menu-open .burger-menu {
+    &::before {
+        top: 24px;
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        bottom: 24px;
+        transform: rotate(-45deg);
+    }
 }
 
 header h1 {
@@ -23,6 +69,47 @@ main {
     grid-template-columns: minmax(min-content, 30%) 1fr;
     height: calc(100vh - 120px);
     overflow: hidden;
+}
+
+@media (hover: hover) {
+    .burger-menu:hover {
+        color: #3fcc59;
+    }
+}
+
+@media (max-width: 1000px) {
+    header {
+        padding-left: 8px;
+    }
+
+    .burger-menu {
+        display: block;
+    }
+
+    main {
+        position: relative;
+        grid-template-columns: 1fr; 
+    }
+
+    .overlay {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100vw;
+        height: calc(100vh - 120px);
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 90;
+    }
+
+    body.menu-open .overlay {
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
 footer {

@@ -6,8 +6,9 @@
     overflow-y: auto;
     align-items: center;
     font: 300 1em 'Fira Sans', sans-serif;
-    padding-inline: 10px;
+    padding: 10px;
     gap: 8px;
+    box-sizing: border-box;
 }
 
 .source__item {
@@ -35,4 +36,24 @@
     font-weight: 400;
     white-space: wrap;
     max-width: 250px;
+}
+
+@media (max-width: 1000px) {
+    .sources {
+        background-color: #17181c;
+        position: absolute;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100%;
+        z-index: 100;
+        
+        transform: translateX(0);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    body.menu-open .sources{
+        transform: translateX(100%);
+    }
 }

@@ -17,6 +17,7 @@ class App {
       .querySelector('.sources')
       ?.addEventListener('click', (e: Event) => this.controller.getNews(e, (data: NewsResponseDto) => this.view.drawNews(data)));
     this.controller.getSources((data: SourcesResponseDto) => this.view.drawSources(data));
+    this.view.addBurgerMenuHandler();
   }
 }
 
