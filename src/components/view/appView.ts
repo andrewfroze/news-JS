@@ -24,7 +24,7 @@ export class AppView {
     this.drawItems(data?.getSources(), this.sources);
   }
 
-  addBurgerMenuHandler() {
+  addBurgerMenuHandler(): void {
     this.burger.addBurgerMenuHandler();
   }
 

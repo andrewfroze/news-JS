@@ -5,13 +5,13 @@ class BurgerMenu {
   private overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
   private body: HTMLElement = document.body;
 
-  public addBurgerMenuHandler() {
+  public addBurgerMenuHandler(): void {
     this.addBurgerButtonHandler();
     this.addOverlayClickHandler()
     this.addEscapeKeyHandler();
   }
 
-  private addBurgerButtonHandler() {
+  private addBurgerButtonHandler(): void {
     if (this.burgerButton && this.sourcesContainer) {
       this.burgerButton.addEventListener('click', () => {
         this.body.classList.toggle('menu-open');
@@ -19,7 +19,7 @@ class BurgerMenu {
     }
   }
 
-  private addOverlayClickHandler() {
+  private addOverlayClickHandler(): void {
     this.overlay.addEventListener('click', (event: Event) => {
       if (this.body.classList.contains('menu-open')) {
         if (event.target !== this.sourcesContainer) {
@@ -29,7 +29,7 @@ class BurgerMenu {
     });
   }
 
-  private addEscapeKeyHandler() {
+  private addEscapeKeyHandler(): void {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (this.body.classList.contains('menu-open')) {
         if (event.code === 'Escape') {

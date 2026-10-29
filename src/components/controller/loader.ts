@@ -17,7 +17,7 @@ class Loader {
             console.error('No callback for GET response');
         },
         mapFn?: (data: T) => R,
-    ) {
+    ): void {
         this.load('GET', request.getEndpoint(), callback, request.getOptions(), mapFn);
     }
 
@@ -35,7 +35,7 @@ class Loader {
         const urlOptions: object = { ...this.options, ...options };
         let url: string = `${this.baseLink}${endpoint}?`;
 
-        Object.entries(urlOptions).forEach(([key, value]) => {
+        Object.entries(urlOptions).forEach(([key, value]: [string, string]) => {
             url += `${key}=${value}&`;
         });
 
@@ -51,12 +51,12 @@ class Loader {
     ): void {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
-            .then((res) => res.json())
+            .then((res: Response) => res.json())
             .then((data: T) => {
                 const result = mapFn ? mapFn(data) : (data as unknown as R);
                 callback(result);
             })
-            .catch((err) => console.error(err));
+            .catch((err: Error) => console.error(err));
     }
 }
 

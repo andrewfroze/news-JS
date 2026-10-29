@@ -7,7 +7,8 @@
         "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
         "build": "webpack --config ./webpack.config.js --env mode=prod",
         "lint": "eslint . ",
-        "lint:fix": "eslint . --fix"
+        "lint:fix": "eslint . --fix",
+        "ts-coverage": "typescript-coverage-report"
     },
     "repository": {
         "type": "git",
@@ -34,10 +35,18 @@
         "style-loader": "^3.3.4",
         "ts-loader": "^9.6.2",
         "typescript": "^5.9.3",
+        "typescript-coverage-report": "^2.1.2",
         "typescript-eslint": "^8.72.1",
         "webpack": "^5.90.1",
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^5.0.0",
         "webpack-merge": "^5.10.0"
+    },
+    "typeCoverage": {
+        "ignoreCatchClause": true,
+        "ignoreFiles": [
+            "tests/**/*",
+            "dist/**/*"
+        ]
     }
 }
