@@ -1,5 +1,7 @@
 type stringOrEmpty = string | null | undefined;
 
+type ElementOrNull = HTMLElement | null;
+
 type sourceType = {
     id: string | null,
     name: string
@@ -27,4 +29,4 @@ type newsResponseType = {
     articles: articleType[],
   };
 
-export type { stringOrEmpty, articleType, sourceType, sourceResponseType, newsResponseType }
+export type { stringOrEmpty, articleType, sourceType, sourceResponseType, newsResponseType, ElementOrNull }

@@ -13,10 +13,15 @@ class App {
   }
 
   start(): void {
+    const drawNews: (data: NewsResponseDto) => void = (data: NewsResponseDto) => this.view.drawNews(data);
     document
       .querySelector('.sources')
-      ?.addEventListener('click', (e: Event) => this.controller.getNews(e, (data: NewsResponseDto) => this.view.drawNews(data)));
-    this.controller.getSources((data: SourcesResponseDto) => this.view.drawSources(data));
+      ?.addEventListener('click', (e: Event) => this.controller.handleSourceSelection(e, drawNews));
+    this.controller.getSources((data: SourcesResponseDto) => {
+      this.view.drawSources(data);
+        this.controller.loadInitialNews(data, drawNews);
+      }
+    );
     this.view.addBurgerMenuHandler();
   }
 }

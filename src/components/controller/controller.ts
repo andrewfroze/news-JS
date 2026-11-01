@@ -1,12 +1,12 @@
 import Endpoint from '../../constants/endpoints';
-import { NewsResponseDto, SourcesResponseDto } from '../model';
-import type { newsResponseType, sourceResponseType, stringOrEmpty } from '../model/types';
+import { NewsResponseDto, SourcesResponseDto, SourceItem } from '../model';
+import type { ElementOrNull, newsResponseType, sourceResponseType, stringOrEmpty } from '../model/types';
 import AppLoader from './appLoader';
 import Request from "./request";
 
 class AppController extends AppLoader {
 
-    getSources(callback: (data: SourcesResponseDto ) => void): void {
+    getSources(callback: (data: SourcesResponseDto) => void): void {
         super.getResp(
             new Request(Endpoint.SOURCES),
             callback,
@@ -14,8 +14,48 @@ class AppController extends AppLoader {
         );
     }
 
-    getNews(e: Event, callback: (data: NewsResponseDto) => void): void {
-        let target: HTMLElement | null = e.target as HTMLElement | null;
+    loadInitialNews(data: SourcesResponseDto, drawNewsCallback: (data: NewsResponseDto) => void): void {
+        this.loadNewsFromNextSource(data.getSources(), 0, drawNewsCallback);
+    }
+
+    private loadNewsFromNextSource(
+        sources: SourceItem[],
+        index: number,
+        callback: (data: NewsResponseDto) => void
+    ): void {
+        if (index >= sources.length) {
+            return;
+        }
+
+        const source = sources[index];
+        if (!source) {
+            return;
+        }
+
+        const sourceId = source.getIdString();
+
+        this.getNews(sourceId, (data: NewsResponseDto) => {
+            if (data.getArticles().length > 0) {
+                const sourceElement = document.querySelector<HTMLElement>(
+                    `.source__item[data-source-id="${sourceId}"]`
+                );
+
+                if (sourceElement) {
+                    this.markSourceAsActive(sourceElement);
+                }
+
+                document.querySelector('.news')?.setAttribute('data-source', sourceId);
+
+                callback(data);
+                return;
+            }
+
+            this.loadNewsFromNextSource(sources, index + 1, callback);
+        });
+    }
+
+    handleSourceSelection(e: Event, callback: (data: NewsResponseDto) => void): void {
+        let target: ElementOrNull = e.target as ElementOrNull;
         const newsContainer: HTMLElement = e.currentTarget as HTMLElement;
 
         while (target && target !== newsContainer) {
@@ -24,16 +64,20 @@ class AppController extends AppLoader {
                 this.markSourceAsActive(target);
                 if (sourceId && newsContainer.getAttribute('data-source') !== sourceId) {
                     newsContainer.setAttribute('data-source', sourceId);
-                    super.getResp(
-                        new Request (Endpoint.EVERYTHING, { sources: sourceId }),
-                        callback,
-                        (response: newsResponseType) => new NewsResponseDto(response)
-                    );
+                    this.getNews(sourceId, callback);
                 }
                 return;
             }
-            target = target.parentNode as HTMLElement | null;
+            target = target.parentNode as ElementOrNull;
         }
+    }
+
+    getNews(sourceId: string, callback: (data: NewsResponseDto) => void): void {
+        super.getResp(
+            new Request (Endpoint.EVERYTHING, { sources: sourceId }),
+            callback,
+            (response: newsResponseType) => new NewsResponseDto(response)
+        );
     }
 
     private markSourceAsActive(sourceElement: HTMLElement): void {

@@ -1,8 +1,8 @@
 class BurgerMenu {
 
-  private burgerButton: HTMLButtonElement = document.querySelector('.burger-menu') as HTMLButtonElement;
-  private sourcesContainer: HTMLElement = document.querySelector('.sources') as HTMLElement;
-  private overlay: HTMLElement = document.querySelector('.overlay') as HTMLElement;
+  private burgerButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>('.burger-menu');
+  private sourcesContainer: HTMLElement | null = document.querySelector<HTMLElement>('.sources');
+  private overlay: HTMLElement | null = document.querySelector<HTMLElement>('.overlay');
   private body: HTMLElement = document.body;
 
   public addBurgerMenuHandler(): void {
@@ -20,13 +20,15 @@ class BurgerMenu {
   }
 
   private addOverlayClickHandler(): void {
-    this.overlay.addEventListener('click', (event: Event) => {
-      if (this.body.classList.contains('menu-open')) {
-        if (event.target !== this.sourcesContainer) {
-          this.body.classList.remove('menu-open');
+    if (this.overlay) {
+      this.overlay.addEventListener('click', (event: Event) => {
+        if (this.body.classList.contains('menu-open')) {
+          if (event.target !== this.sourcesContainer) {
+            this.body.classList.remove('menu-open');
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   private addEscapeKeyHandler(): void {
