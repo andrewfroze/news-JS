@@ -25,7 +25,7 @@ type sourceResponseType = {
 
 type newsResponseType = {
     status: string,
-    totalResults: string | undefined,
+    totalResults: number | undefined,
     articles: articleType[],
   };
 

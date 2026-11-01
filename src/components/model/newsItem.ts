@@ -55,6 +55,19 @@ class NewsItem {
   public getContent(): string {
     return this.content ?? '';
   }
+
+  public toJson(): articleType {
+    return {
+        source: this.source.toJson(),
+        author: this.author,
+        title: this.title,
+        description: this.description,
+        url: this.url,
+        urlToImage: this.urlToImage,
+        publishedAt: this.publishedAt.toISOString(),
+        content: this.content
+    };
+}
 }
 
 export default NewsItem;

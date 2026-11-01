@@ -14,6 +14,13 @@ class SourcesResponseDto extends BaseResponse {
   public getSources(): SourceItem[] {
     return this.sources;
   }
+
+  public toJson(): sourceResponseType {
+    return {
+      status: this.getStatus(),
+      sources: this.sources.map((source) => source.toJson()),
+    }
+  }
 }
 
 export { SourcesResponseDto as default }

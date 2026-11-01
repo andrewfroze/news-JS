@@ -9,7 +9,7 @@ class NewsResponseDto extends BaseResponse {
   private articles: NewsItem[];
 
   constructor(data: newsResponseType) {
-    super( data['status'])
+    super(data['status'])
     this.totalResults = Number(data['totalResults']);
     this.articles = data['articles'].map((article) => new NewsItem(article));
   }
@@ -24,6 +24,14 @@ class NewsResponseDto extends BaseResponse {
 
   public getSources(): SourceItem[] {
     return this.getArticles().map((article: NewsItem) => article.getSource());
+  }
+
+  toJson(): newsResponseType {
+    return {
+        status: this.getStatus(),
+        totalResults: this.totalResults,
+        articles: this.articles.map((article) => article.toJson())
+    };
   }
 }
 

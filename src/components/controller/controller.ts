@@ -3,13 +3,30 @@ import { NewsResponseDto, SourcesResponseDto, SourceItem } from '../model';
 import type { ElementOrNull, newsResponseType, sourceResponseType, stringOrEmpty } from '../model/types';
 import AppLoader from './appLoader';
 import Request from "./request";
+import NewsCacheService from './newsCacheService';
 
 class AppController extends AppLoader {
 
+    private newsCache: NewsCacheService = new NewsCacheService();
+    private pendingNews: Map<string, Array<(data: NewsResponseDto) => void>> = new Map<
+        string,
+        Array<(data: NewsResponseDto) => void>
+    >();
+
     getSources(callback: (data: SourcesResponseDto) => void): void {
+        const cached: SourcesResponseDto | null = this.newsCache.getSources();
+
+        if (cached && cached.getStatus() === 'ok') {
+            callback(cached);
+            return;
+        }
+
         super.getResp(
             new Request(Endpoint.SOURCES),
-            callback,
+            (data: SourcesResponseDto) => {
+                this.newsCache.setSources(data);
+                callback(data);
+            },
             (response: sourceResponseType) => new SourcesResponseDto(response)
         );
     }
@@ -73,9 +90,32 @@ class AppController extends AppLoader {
     }
 
     getNews(sourceId: string, callback: (data: NewsResponseDto) => void): void {
+        const cached = this.newsCache.get(sourceId);
+
+        if (cached && cached.getStatus() === 'ok') {
+            callback(cached);
+            return;
+        }
+
+        const pending = this.pendingNews.get(sourceId);
+
+        if (pending) {
+            pending.push(callback);
+            return;
+        }
+
+        this.pendingNews.set(sourceId, [callback]);
+
         super.getResp(
-            new Request (Endpoint.EVERYTHING, { sources: sourceId }),
-            callback,
+            new Request(Endpoint.EVERYTHING, { sources: sourceId }),
+            (data: NewsResponseDto) => {
+                this.newsCache.set(sourceId, data);
+
+                const callbacks = this.pendingNews.get(sourceId) ?? [];
+                this.pendingNews.delete(sourceId);
+
+                callbacks.forEach((cb) => cb(data));
+            },
             (response: newsResponseType) => new NewsResponseDto(response)
         );
     }

@@ -17,6 +17,13 @@ class SourceItem {
   public getName(): string {
     return this.name;
   }
+
+  toJson(): sourceType {
+    return {
+      id: this.id,
+      name: this.name,
+    } 
+  }
 }
 
 export default SourceItem;
