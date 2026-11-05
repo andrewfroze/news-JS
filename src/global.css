@@ -116,8 +116,9 @@ footer {
     height: 50px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     box-sizing: border-box;
+    padding-inline: 10px;
 }
 footer .copyright {
     font-size: 14px;
@@ -132,4 +133,21 @@ footer .copyright a:hover {
 }
 footer .copyright:before {
     content: '©';
+}
+
+footer .links {
+    display: flex;
+    gap: 10px;
+}
+
+footer .links #cource-link,
+footer .links #github-link {
+    width: 30px;
+    height: 30px;
+
+    & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
