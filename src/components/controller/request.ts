@@ -1,21 +1,21 @@
-import type Endpoint from "../../constants/endpoints";
+import type Endpoint from '../../constants/endpoints';
 
 class Request {
-  private endpoint: Endpoint;
-  private options: object;
-  
-  constructor (endpoint: Endpoint, options: object = {}) {
-    this.endpoint = endpoint;
-    this.options = options;
-  }
+    private endpoint: Endpoint;
+    private options: object;
 
-  getEndpoint(): Endpoint {
-    return this.endpoint;
-  }
+    public constructor(endpoint: Endpoint, options: object = {}) {
+        this.endpoint = endpoint;
+        this.options = options;
+    }
 
-  getOptions(): object {
-    return this.options;
-  }
+    public getEndpoint(): Endpoint {
+        return this.endpoint;
+    }
+
+    public getOptions(): object {
+        return this.options;
+    }
 }
 
 export default Request;

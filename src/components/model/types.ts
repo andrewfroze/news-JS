@@ -3,30 +3,30 @@ type stringOrEmpty = string | null | undefined;
 type ElementOrNull = HTMLElement | null;
 
 type sourceType = {
-    id: string | null,
-    name: string
+    id: string | null;
+    name: string;
 };
 
 type articleType = {
-    source: sourceType,
-    author: stringOrEmpty,
-    title: stringOrEmpty,
-    description: stringOrEmpty,
-    url: stringOrEmpty,
-    urlToImage: stringOrEmpty,
-    publishedAt: string,
-    content: stringOrEmpty,
-  };
+    source: sourceType;
+    author: stringOrEmpty;
+    title: stringOrEmpty;
+    description: stringOrEmpty;
+    url: stringOrEmpty;
+    urlToImage: stringOrEmpty;
+    publishedAt: string;
+    content: stringOrEmpty;
+};
 
 type sourceResponseType = {
-    status: string,
-    sources: sourceType[],
-  };
+    status: string;
+    sources: sourceType[];
+};
 
 type newsResponseType = {
-    status: string,
-    totalResults: number | undefined,
-    articles: articleType[],
-  };
+    status: string;
+    totalResults: number | undefined;
+    articles: articleType[];
+};
 
-export type { stringOrEmpty, articleType, sourceType, sourceResponseType, newsResponseType, ElementOrNull }
+export type { stringOrEmpty, articleType, sourceType, sourceResponseType, newsResponseType, ElementOrNull };

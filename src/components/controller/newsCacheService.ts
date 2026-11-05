@@ -1,4 +1,3 @@
-
 import { NewsResponseDto, SourcesResponseDto } from '../model';
 import type { newsResponseType, sourceResponseType } from '../model/types';
 
@@ -14,7 +13,7 @@ class NewsCacheService {
     private readonly newsCacheTtl = 60 * 60 * 1000; // 1 hour
     private readonly sourcesCacheTtl = 24 * 60 * 60 * 1000; // 24 hours
 
-    get(sourceId: string): NewsResponseDto | null {
+    public get(sourceId: string): NewsResponseDto | null {
         const cached: newsResponseType | null = this.getCachedData<newsResponseType>(
             `${this.cachePrefix}${sourceId}`,
             this.newsCacheTtl
@@ -23,14 +22,11 @@ class NewsCacheService {
         return cached ? new NewsResponseDto(cached) : null;
     }
 
-    set(sourceId: string, data: NewsResponseDto): void {
-        this.setCachedData(
-            `${this.cachePrefix}${sourceId}`,
-            data.toJson()
-        );
+    public set(sourceId: string, data: NewsResponseDto): void {
+        this.setCachedData(`${this.cachePrefix}${sourceId}`, data.toJson());
     }
 
-    getSources(): SourcesResponseDto | null {
+    public getSources(): SourcesResponseDto | null {
         const cached: sourceResponseType | null = this.getCachedData<sourceResponseType>(
             this.sourcesCacheKey,
             this.sourcesCacheTtl
@@ -39,23 +35,17 @@ class NewsCacheService {
         return cached ? new SourcesResponseDto(cached) : null;
     }
 
-    setSources(data: SourcesResponseDto): void {
-        this.setCachedData(
-            this.sourcesCacheKey,
-            data.toJson()
-        );
+    public setSources(data: SourcesResponseDto): void {
+        this.setCachedData(this.sourcesCacheKey, data.toJson());
     }
 
-    remove(sourceId: string): void {
+    public remove(sourceId: string): void {
         localStorage.removeItem(`${this.cachePrefix}${sourceId}`);
     }
 
-    clear(): void {
+    public clear(): void {
         Object.keys(localStorage)
-            .filter((key) =>
-                key.startsWith(this.cachePrefix) ||
-                key === this.sourcesCacheKey
-            )
+            .filter((key) => key.startsWith(this.cachePrefix) || key === this.sourcesCacheKey)
             .forEach((key) => localStorage.removeItem(key));
     }
 
@@ -84,7 +74,7 @@ class NewsCacheService {
     private setCachedData<T>(key: string, data: T): void {
         const entry: CacheEntry<T> = {
             data,
-            cachedAt: Date.now()
+            cachedAt: Date.now(),
         };
 
         try {

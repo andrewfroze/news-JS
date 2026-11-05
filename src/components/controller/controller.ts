@@ -2,18 +2,17 @@ import Endpoint from '../../constants/endpoints';
 import { NewsResponseDto, SourcesResponseDto, SourceItem } from '../model';
 import type { ElementOrNull, newsResponseType, sourceResponseType, stringOrEmpty } from '../model/types';
 import AppLoader from './appLoader';
-import Request from "./request";
+import Request from './request';
 import NewsCacheService from './newsCacheService';
 
 class AppController extends AppLoader {
-
     private newsCache: NewsCacheService = new NewsCacheService();
     private pendingNews: Map<string, Array<(data: NewsResponseDto) => void>> = new Map<
         string,
         Array<(data: NewsResponseDto) => void>
     >();
 
-    getSources(callback: (data: SourcesResponseDto) => void): void {
+    public getSources(callback: (data: SourcesResponseDto) => void): void {
         const cached: SourcesResponseDto | null = this.newsCache.getSources();
 
         if (cached && cached.getStatus() === 'ok') {
@@ -31,7 +30,7 @@ class AppController extends AppLoader {
         );
     }
 
-    loadInitialNews(data: SourcesResponseDto, drawNewsCallback: (data: NewsResponseDto) => void): void {
+    public loadInitialNews(data: SourcesResponseDto, drawNewsCallback: (data: NewsResponseDto) => void): void {
         this.loadNewsFromNextSource(data.getSources(), 0, drawNewsCallback);
     }
 
@@ -71,7 +70,7 @@ class AppController extends AppLoader {
         });
     }
 
-    handleSourceSelection(e: Event, callback: (data: NewsResponseDto) => void): void {
+    public handleSourceSelection(e: Event, callback: (data: NewsResponseDto) => void): void {
         let target: ElementOrNull = e.target as ElementOrNull;
         const newsContainer: HTMLElement = e.currentTarget as HTMLElement;
 
@@ -89,7 +88,7 @@ class AppController extends AppLoader {
         }
     }
 
-    getNews(sourceId: string, callback: (data: NewsResponseDto) => void): void {
+    public getNews(sourceId: string, callback: (data: NewsResponseDto) => void): void {
         const cached = this.newsCache.get(sourceId);
 
         if (cached && cached.getStatus() === 'ok') {

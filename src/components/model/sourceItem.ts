@@ -1,29 +1,28 @@
-import type { sourceType } from "./types";
+import type { sourceType } from './types';
 
 class SourceItem {
+    private id: string | null;
+    private name: string;
 
-  private id: string | null;
-  private name: string;
+    public constructor(data: sourceType) {
+        this.id = data['id'];
+        this.name = data['name'];
+    }
 
-  constructor(data: sourceType) {
-    this.id = data['id'];
-    this.name = data['name'];
-  }
+    public getIdString(): string {
+        return this.id ?? '';
+    }
 
-  public getIdString(): string {
-    return this.id ?? '';
-  }
+    public getName(): string {
+        return this.name;
+    }
 
-  public getName(): string {
-    return this.name;
-  }
-
-  toJson(): sourceType {
-    return {
-      id: this.id,
-      name: this.name,
-    } 
-  }
+    public toJson(): sourceType {
+        return {
+            id: this.id,
+            name: this.name,
+        };
+    }
 }
 
 export default SourceItem;

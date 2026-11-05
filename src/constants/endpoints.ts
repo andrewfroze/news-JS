@@ -1,6 +1,6 @@
 enum Endpoint {
-  EVERYTHING = 'everything',
-  SOURCES = 'sources'
+    EVERYTHING = 'everything',
+    SOURCES = 'sources',
 }
 
-export { Endpoint as default }
+export { Endpoint as default };
