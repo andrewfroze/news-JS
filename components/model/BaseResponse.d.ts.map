@@ -1,0 +1,1 @@
+{"version":3,"file":"BaseResponse.d.ts","sourceRoot":"","sources":["../../../src/components/model/BaseResponse.ts"],"names":[],"mappings":"AAAA,uBAAe,YAAY;IACvB,OAAO,CAAC,MAAM,CAAS;gBAEJ,MAAM,EAAE,MAAM;IAI1B,SAAS,IAAI,MAAM;CAG7B;AAED,OAAO,EAAE,YAAY,IAAI,OAAO,EAAE,CAAC"}
